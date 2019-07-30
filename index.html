@@ -382,50 +382,18 @@
       
         
           
-            <p>因为发现网上没有人写这个，于是就写了一篇。以最基本的<strong>颜色直方图</strong>为例，采用BOW算法完成图像检索。<br>源码发布在： <a href="https://github.com/zxwsbg/Bow-Retrival" target="_blank" rel="noopener">https://github.com/zxwsbg/Bow-Retrival</a><br>如果本文对你有帮助，请给我github的项目一个star！！！<br>转载请注明原作者！！！<br><img src="https://img-blog.csdnimg.cn/20190729205918991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<hr>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol start="0">
-<li>如果你在github上下载了源码的话，可以直接使用，无需再去数据集</li>
-<li>测试数据集：<a href="http://wang.ist.psu.edu/docs/related/" target="_blank" rel="noopener">http://wang.ist.psu.edu/docs/related/</a></li>
-<li>开发环境：matlab</li>
-<li>将测试数据集<code>test1</code>和代码放在同一个文件夹下，如下图<br><img src="https://img-blog.csdnimg.cn/20190730100932372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h1 id="step1-提取特征"><a href="#step1-提取特征" class="headerlink" title="step1 提取特征"></a>step1 提取特征</h1>对于一张图片，以384<em>256为例。那么利用<code>imread</code>读取图片后，就会获得一个384</em>256*3的矩阵，最后的3表示RGB分量。<br>出于简单考虑，本文就以YUV分量为特征，将提取出来的RGB分量一步转化为YUv，然后再利用<code>cell</code>存储每张图片的特征。<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>:ImgNum</span><br><span class="line">    ImgName = [ImgFolder int2str(i<span class="number">-1</span>)];</span><br><span class="line">    ImgName = [ImgName '.jpg'];</span><br><span class="line">    disp(i);</span><br><span class="line">    RGBImg = imread(ImgName);</span><br><span class="line">    YUVImg = rgb2ycbcr(RGBImg);</span><br><span class="line">    ImgInfo&#123;i&#125; = YUVImg;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+          因为发现网上没有人写这个，于是就写了一篇。以最基本的颜色直方图为例，采用BOW算法完成图像检索。源码发布在： https://github.com/zxwsbg/Bow-Retrival如果本文对你有帮助，请给我github的项目一个star！！！转载请注明原作者！！！
 
-</li>
-</ol>
-<h1 id="step2-挑选特征"><a href="#step2-挑选特征" class="headerlink" title="step2 挑选特征"></a>step2 挑选特征</h1><p>我们以一张384*256的照片为例，因为要聚类，不可能把一整张图片直接放进去，需要进行预处理。由于我们的特征是颜色直方图，所以处理特征也很简单。</p>
-<ol>
-<li>将一张图片分成若干个8*8的小块；</li>
-<li>将每一个8*8的小块平铺成一个1*64的向量</li>
-</ol>
-<p>这样处理之后，一张384*256的原矩阵就转化成了一个1536*64的新矩阵，第一行对应的就是第一个8*8的块平摊下来。<del>这一步用循环会比较蠢，但是我懒得去找对应的矩阵变换的函数了</del> 。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function y=Func_divide(x,BlockSize)</span><br><span class="line">    y = [];</span><br><span class="line">    n = size(x,<span class="number">1</span>)/<span class="number">8</span>;</span><br><span class="line">    m = size(x,<span class="number">2</span>)/<span class="number">8</span>;</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">1</span>:n</span><br><span class="line">        <span class="keyword">for</span> j = <span class="number">1</span>:m</span><br><span class="line">            posx = (i<span class="number">-1</span>)*BlockSize+<span class="number">1</span>; %某个<span class="number">8</span>*<span class="number">8</span>的块起始位置横坐标</span><br><span class="line">            posy = (j<span class="number">-1</span>)*BlockSize+<span class="number">1</span>; %某个<span class="number">8</span>*<span class="number">8</span>的块起始位置纵坐标</span><br><span class="line">            temp = x(posx:posx+BlockSize<span class="number">-1</span>,posy:posy+BlockSize<span class="number">-1</span>);</span><br><span class="line">            temp = reshape(temp',<span class="number">1</span>,BlockSize*BlockSize); %求转置来横着拼</span><br><span class="line">            % 平铺</span><br><span class="line">            y = [y;temp];</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>在处理完所有图片后，每张图片都有一个1536<em>64的矩阵，把它们纵向拼接后，1000张就是1536000</em>64的矩阵，这在聚类的时候一下子塞进去太大了。根据<strong>大数定律</strong>，我们只需要从中挑选一部分去聚类就行了。假如我们挑选20%，最终的聚类矩阵就只有307200*64这么大，这样速度会快很多。</p>
-<h1 id="step3-聚类"><a href="#step3-聚类" class="headerlink" title="step3 聚类"></a>step3 聚类</h1><p>这是最为核心的一步，我来细细的讲解一下这一步的中心思想。<br><code>SelecHist</code>就是刚刚挑选出来的那个矩阵，<code>clusterNum</code>是类心数，可以自己设定，这里以100为例。<br>聚类的意思就是生成100个类心，然后之前307200*64的矩阵，每一行都归到一个类心里面去。比如第一行的64维向量分到了第4类，第二行的64维向量分到了第78类（这些都是我口糊的）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Idx,C] = kmeans(SelectHist,clusterNum);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Idx： 307200*1的矩阵，表示每一行最后去了哪个类（这里没啥用）；</li>
-<li>C：类心坐标，是一个100*64的矩阵，第i行表示第i个类心的坐标。因为特征是64维的，所以类心坐标自然也是64维的，不要想当然的认为坐标都是二维的。</li>
-</ul>
-<h1 id="step4-分类"><a href="#step4-分类" class="headerlink" title="step4 分类"></a>step4 分类</h1><p>在得到上一步的类心矩阵C后，我们就要开始分类了。<br>大家是否还记得第二步提出了每一张图片的1536*64的特征，没错，那个要保存下来。<br>我们对于1000张图片的每一个1536*64的矩阵，再到每一行的64维向量，都要把它分到之前那100个类中的一个去。这里利用距离计算函数<code>pdist2</code>计算它离哪个类心最近，就把它分到那一类里面去。<br>现在我们得到了一个矩阵，就是每一行属于第几个类，我们所需要做的，就是对每一张图片形成<strong>频数直方图</strong>。<br>这一步可能很难理解，但我简要的说一下，该直方图的横坐标是100，表示这100个类，纵坐标是该图片有多少块属于这一个类。<br>举一个极端的例子，在之前分类的时候，有1535个分到了第1类，剩下一个去了第2类。那么这张图片的频数直方图中，横坐标1的直方图对应高度就是1535，横坐标2的直方图对应高度就是1。<br>为了提高准确性，代码顺手将提取到的直方图归一化了。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i = <span class="number">1</span>:ImgNum;</span><br><span class="line">    similarDistances = pdist2(cell2mat(LocalHist_Y(i)),C); </span><br><span class="line">    [minElements,idx] = min(similarDistances,[],<span class="number">2</span>);</span><br><span class="line">    bins = <span class="number">0.5</span>:<span class="number">1</span>:clusterNum+<span class="number">0.5</span>;</span><br><span class="line">    hist = histogram(idx,bins);</span><br><span class="line">    Features = hist.Values;</span><br><span class="line">    Final_Hist(i,:) = Features;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<h1 id="step5-计算直方图距离"><a href="#step5-计算直方图距离" class="headerlink" title="step5 计算直方图距离"></a>step5 计算直方图距离</h1><p>到这里已经差不多结束了，我们对每张图片都有了一个频数直方图，众所周知，直方图可以看成二维的矩阵。<br>我们所要做的就是直接比较这1000张图片对应直方图的距离，然后排个序。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%% 计算各图片与其它图片间的距离</span><br><span class="line">Hist_Dist=[];</span><br><span class="line"><span class="keyword">for</span> i=<span class="number">1</span>:ImgNum</span><br><span class="line">    <span class="keyword">for</span> j=<span class="number">1</span>:ImgNum</span><br><span class="line">        a = Final_Hist(i,:);</span><br><span class="line">        b = Final_Hist(j,:);</span><br><span class="line">        similarDistance(j) = pdist2(a,b,'cityblock');</span><br><span class="line">    end</span><br><span class="line">    Hist_Dist = [Hist_Dist;similarDistance];</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<h1 id="step6-检索"><a href="#step6-检索" class="headerlink" title="step6 检索"></a>step6 检索</h1><p>我们已经得到了1000张图片的图片与图片之间的距离，于是我们想测试一下。<br>以第436张图片为例，检索出来的效果是这样的，看上去还不错。<br><img src="https://img-blog.csdnimg.cn/20190730104119488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">%% 测试</span><br><span class="line">Img = 436;</span><br><span class="line">temp = Hist_Dist(Img,:);</span><br><span class="line">[Y,I] = sort(temp);</span><br><span class="line">k = 16; %前15相似</span><br><span class="line">for i = 1:k</span><br><span class="line">    ImgFolder = &apos;./test1/&apos;;</span><br><span class="line">    ImgName = [ImgFolder int2str(I(i)-1)];</span><br><span class="line">    ImgName = [ImgName &apos;.jpg&apos;];</span><br><span class="line">    subplot(4,4,i);</span><br><span class="line">    imshow(ImgName);</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>本着科学的角度，我们计算该检索方法的<code>Presicion-Recall</code>值，如果不知道的话，可以去百度一下。它的曲线如下图所示，看上去并不咋样，说明这并不是一个好的特征。计算<code>Presicion-Recall</code>的函数是别人提供的，不用具体分析，对每个数据集的计算方法都不一样。<br><img src="https://img-blog.csdnimg.cn/20190730104902759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h1 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a>友情提示</h1><ol>
-<li>计算某些特征的时间特别长，这里建议先存下来，后续要用的时候直接读取即可；</li>
-<li>kmeans的类心数量、聚类、类心选取都可以自己设定，建议参考matlab相关部分文档；</li>
-<li>特征不一定要选择颜色直方图，类似的特征有很多，这只是最简单的一个；</li>
-<li>图片每一百张是一类，相信你们也能看出来。</li>
-</ol>
-
-          
+准备工作
+如果你在gith
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/30/基于BOW的图像检索（含matlab源码）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -565,21 +533,15 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/29/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
