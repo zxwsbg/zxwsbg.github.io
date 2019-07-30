@@ -90,13 +90,22 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="因为发现网上没有人写这个，于是就写了一篇。以最基本的颜色直方图为例，采用BOW算法完成图像检索。源码发布在： https://github.com/zxwsbg/Bow-Retrival如果本文对你有帮助，请给我github的项目一个star！！！转载请注明原作者！！！  准备工作 如果你在github上下载了源码的话，可以直接使用，无需再去数据集 测试数据集：http://wang.ist.ps">
+<meta property="og:type" content="article">
 <meta property="og:title" content="总想玩世不恭的博客">
-<meta property="og:url" content="https://zxwsbg.cn/index.html">
+<meta property="og:url" content="https://zxwsbg.cn/2019/07/30/基于BOW的图像检索（含matlab源码）/index.html">
 <meta property="og:site_name" content="总想玩世不恭的博客">
+<meta property="og:description" content="因为发现网上没有人写这个，于是就写了一篇。以最基本的颜色直方图为例，采用BOW算法完成图像检索。源码发布在： https://github.com/zxwsbg/Bow-Retrival如果本文对你有帮助，请给我github的项目一个star！！！转载请注明原作者！！！  准备工作 如果你在github上下载了源码的话，可以直接使用，无需再去数据集 测试数据集：http://wang.ist.ps">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190729205918991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190730100932372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190730104119488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190730104902759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-07-30T03:30:56.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="总想玩世不恭的博客">
+<meta name="twitter:description" content="因为发现网上没有人写这个，于是就写了一篇。以最基本的颜色直方图为例，采用BOW算法完成图像检索。源码发布在： https://github.com/zxwsbg/Bow-Retrival如果本文对你有帮助，请给我github的项目一个star！！！转载请注明原作者！！！  准备工作 如果你在github上下载了源码的话，可以直接使用，无需再去数据集 测试数据集：http://wang.ist.ps">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190729205918991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -126,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="https://zxwsbg.cn/">
+  <link rel="canonical" href="https://zxwsbg.cn/2019/07/30/基于BOW的图像检索（含matlab源码）/">
 
 
 
 
 
-  <title>总想玩世不恭的博客</title>
+  <title> | 总想玩世不恭的博客</title>
   
 
 
@@ -170,8 +179,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -274,9 +282,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -306,9 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/30/基于BOW的图像检索（含matlab源码）/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -358,9 +364,7 @@
       
 
       
-        
-          
-            <p>因为发现网上没有人写这个，于是就写了一篇。以最基本的<strong>颜色直方图</strong>为例，采用BOW算法完成图像检索。<br>源码发布在： <a href="https://github.com/zxwsbg/Bow-Retrival" target="_blank" rel="noopener">https://github.com/zxwsbg/Bow-Retrival</a><br>如果本文对你有帮助，请给我github的项目一个star！！！<br>转载请注明原作者！！！<br><img src="https://img-blog.csdnimg.cn/20190729205918991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+        <p>因为发现网上没有人写这个，于是就写了一篇。以最基本的<strong>颜色直方图</strong>为例，采用BOW算法完成图像检索。<br>源码发布在： <a href="https://github.com/zxwsbg/Bow-Retrival" target="_blank" rel="noopener">https://github.com/zxwsbg/Bow-Retrival</a><br>如果本文对你有帮助，请给我github的项目一个star！！！<br>转载请注明原作者！！！<br><img src="https://img-blog.csdnimg.cn/20190729205918991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p4d3NiZw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <hr>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ol start="0">
 <li>如果你在github上下载了源码的话，可以直接使用，无需再去数据集</li>
@@ -403,8 +407,6 @@
 <li>图片每一百张是一类，相信你们也能看出来。</li>
 </ol>
 
-          
-        
       
     </div>
     
@@ -414,6 +416,35 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Zxwsbg 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Zxwsbg 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
@@ -421,166 +452,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zxwsbg.cn/2019/07/29/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Zxwsbg">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/ani1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="总想玩世不恭的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/29/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T09:57:54+08:00">
-                2019-07-29
-              </time>
+              <a href="/2019/07/29/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo搭建/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo搭建</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -590,10 +483,17 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -601,6 +501,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -621,8 +525,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -709,6 +622,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step1-提取特征"><span class="nav-number">2.</span> <span class="nav-text">step1 提取特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step2-挑选特征"><span class="nav-number">3.</span> <span class="nav-text">step2 挑选特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step3-聚类"><span class="nav-number">4.</span> <span class="nav-text">step3 聚类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step4-分类"><span class="nav-number">5.</span> <span class="nav-text">step4 分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step5-计算直方图距离"><span class="nav-number">6.</span> <span class="nav-text">step5 计算直方图距离</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#step6-检索"><span class="nav-number">7.</span> <span class="nav-text">step6 检索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#友情提示"><span class="nav-number">8.</span> <span class="nav-text">友情提示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -849,6 +778,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
